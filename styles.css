@@ -9,14 +9,21 @@
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
     height: 500px;
+    background-color: brown;
+    column-rule: solid black;
 
 }
+
 
 .library  div {
     margin: 10px;
     padding: 10px;
     height: 100px;
-    width: 150px;
+    width: auto;
+    box-shadow:2px 2px 20px gray;
+    background-color: white;
+    border-bottom: 10px solid black;
+    justify-self: stretch;
 }
 
 button {
@@ -25,4 +32,7 @@ button {
     padding: 10px;
     background-color: rgb(10, 150, 200);
     color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 2px 2px 20px gray;
 }
