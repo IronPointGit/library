@@ -6,6 +6,7 @@ function Book(title, pages, genre, author) {
     this.pages = pages;
     this.genre = genre;
     this.author = author;
+    this.id = crypto.randomUUID()
 }
 
 function addBookToLibrary(title, pages, genre, author) {
@@ -18,10 +19,15 @@ addBookToLibrary('vampire', 100, 'fantasy', 'Bram Stoker');
 
 function showLibrary() {
     let library = document.querySelector(".library");
+    library.replaceChildren();
     for(const book of myLibrary) {
         console.log(book);
         let newDiv = document.createElement('div');
-        newDiv.textContent = `Title: ${book.title} \n Pages: ${book.pages} \n Genre: ${book.genre} \n Author: ${book.author}`;
+        newDiv.textContent = `Title: ${book.title}
+                                Pages: ${book.pages}
+                                Genre: ${book.genre}
+                                Author: ${book.author}
+                                ID: ${book.id}`;
         newDiv.style.border = '1px solid black';
         newDiv.style.whiteSpace = 'pre-line'
         library.appendChild(newDiv);
