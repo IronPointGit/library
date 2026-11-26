@@ -3,17 +3,19 @@ const myLibrary = [];
 
 
 
-function Book(title, pages, genre, author) {
+function Book(title, pages, genre, author, readStatus) {
     this.title = title;
     this.pages = pages;
     this.genre = genre;
     this.author = author;
+    this.readStatus = readStatus
     this.id = crypto.randomUUID();
+    
 }
 
-function addBookToLibrary(title, pages, genre, author) {
+function addBookToLibrary(title, pages, genre, author, readStatus) {
 
-    return myLibrary.push(new Book(title, pages, genre, author));
+    return myLibrary.push(new Book(title, pages, genre, author, readStatus));
 }
 
 function removeBook(event) {
@@ -27,15 +29,8 @@ function removeBook(event) {
     }
 }
 
-function readStatus(event) {
-    if (event.target.textContent === 'Read') {
-        event.target.style.backgroundColor = 'red';
-        event.target.textContent = 'Unread';
-    }
-    else {
-        event.target.style.backgroundColor = 'green';
-        event.target.textContent = 'Read';
-    }
+Book.prototype.toggleReadStatus = function() {
+    this.readStatus = !this.readStatus;
     
 }
 
@@ -46,10 +41,17 @@ function showLibrary() {
     library.replaceChildren();
     for(const book of myLibrary) {
         let newDiv = document.createElement('div');
+
+        //create Buttons for appending to book
         let removeBtn = document.createElement('button');
         removeBtn.addEventListener('click', removeBook);
         let readStatusBtn = document.createElement('button');
-        readStatusBtn.addEventListener('click', readStatus);
+        readStatusBtn.addEventListener('click',  () => {
+            book.toggleReadStatus();
+            showLibrary();
+        });
+        
+        //set div content
         newDiv.setAttribute('id', book.id);
         newDiv.textContent = `Title: ${book.title}
                                 Pages: ${book.pages}
@@ -59,19 +61,23 @@ function showLibrary() {
         newDiv.style.border = '1px solid black';
         newDiv.style.whiteSpace = 'pre-line'
         library.appendChild(newDiv);
+
+        //append buttons to div and style
         removeBtn.style.border = '1px solid black';
         removeBtn.textContent = 'Remove';
         removeBtn.style.backgroundColor = 'rgb(10,150,200)';
         removeBtn.setAttribute('id', book.id);
         readStatusBtn.style.border = '1px solid black';
-        readStatusBtn.textContent = 'Unread';
-        readStatusBtn.style.backgroundColor = 'red';
+        readStatusBtn.textContent = book.readStatus ? "Read" : "Unread";
+        readStatusBtn.style.backgroundColor = book.readStatus ? "green" : "red";
         readStatusBtn.setAttribute('id', book.id);
         newDiv.appendChild(removeBtn);
         newDiv.appendChild(readStatusBtn);
     } 
 }
 
+
+//update display to show form to add a book
 function newBook() {
     let newForm = document.querySelector('.newBookForm');
     newForm.toggleAttribute('hidden')
@@ -92,8 +98,9 @@ form.addEventListener('submit', (e) => {
     const pages = formData.get('pages');
     const genre = formData.get('genre');
     const author = formData.get('author');
-
-    addBookToLibrary(title, pages, genre, author);
+    const status = formData.get('readStatus') === 'Unread';
+    console.log(status);
+    addBookToLibrary(title, pages, genre, author, status);
     form.toggleAttribute('hidden');
     showLibrary();
 })
