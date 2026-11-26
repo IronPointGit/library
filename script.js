@@ -57,7 +57,7 @@ function showLibrary() {
                                 Pages: ${book.pages}
                                 Genre: ${book.genre}
                                 Author: ${book.author}
-                                ID: ${book.id}`;
+                                `
         newDiv.style.border = '1px solid black';
         newDiv.style.whiteSpace = 'pre-line'
         library.appendChild(newDiv);
@@ -67,10 +67,13 @@ function showLibrary() {
         removeBtn.textContent = 'Remove';
         removeBtn.style.backgroundColor = 'rgb(10,150,200)';
         removeBtn.setAttribute('id', book.id);
+
+        //read button styling
         readStatusBtn.style.border = '1px solid black';
         readStatusBtn.textContent = book.readStatus ? "Read" : "Unread";
         readStatusBtn.style.backgroundColor = book.readStatus ? "green" : "red";
         readStatusBtn.setAttribute('id', book.id);
+        
         newDiv.appendChild(removeBtn);
         newDiv.appendChild(readStatusBtn);
     } 
