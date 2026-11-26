@@ -1,10 +1,7 @@
 
 const myLibrary = [];
 
-let removeBtn = document.createElement('button');
-removeBtn.addEventListener('click', removeBook);
-let readStatusBtn = document.createElement('button');
-readStatusBtn.addEventListener('click', readStatus);
+
 
 function Book(title, pages, genre, author) {
     this.title = title;
@@ -19,8 +16,15 @@ function addBookToLibrary(title, pages, genre, author) {
     return myLibrary.push(new Book(title, pages, genre, author));
 }
 
-function removeBook() {
-    
+function removeBook(event) {
+    if(event.target.id === event.target.parentNode.id) {
+        const index = myLibrary.findIndex(book => book.id === event.target.id);
+
+        if (index > -1) {
+            myLibrary.splice(index, 1);
+        }
+        showLibrary();
+    }
 }
 
 function readStatus(event) {
@@ -42,7 +46,11 @@ function showLibrary() {
     library.replaceChildren();
     for(const book of myLibrary) {
         let newDiv = document.createElement('div');
-        
+        let removeBtn = document.createElement('button');
+        removeBtn.addEventListener('click', removeBook);
+        let readStatusBtn = document.createElement('button');
+        readStatusBtn.addEventListener('click', readStatus);
+        newDiv.setAttribute('id', book.id);
         newDiv.textContent = `Title: ${book.title}
                                 Pages: ${book.pages}
                                 Genre: ${book.genre}
